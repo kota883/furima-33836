@@ -1,5 +1,8 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_item
+  before_action :sales_status_verification
+  before_action :user_id_verification
 
 	def index
     @order_address = OrderAddress.new
@@ -20,6 +23,14 @@ class OrdersController < ApplicationController
 
   def set_item
     @item = Item.find(params[:item_id])
+  end
+
+  def sales_status_verification
+    redirect_to root_path unless @item.order.nil?
+  end
+
+  def user_id_verification
+    redirect_to root_path if current_user.id == @item.user_id
   end
 
   def order_params
