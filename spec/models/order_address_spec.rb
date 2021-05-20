@@ -6,7 +6,7 @@ RSpec.describe OrderAddress, type: :model do
       user = FactoryBot.create(:user)
       item = FactoryBot.create(:item)
       @order = FactoryBot.build(:order_address, user_id: user.id, item_id: item.id)
-      sleep(1) #Mysql2エラー防止
+      sleep(1) # Mysql2エラー防止
     end
 
     context '購入情報が保存できる時' do
@@ -19,68 +19,68 @@ RSpec.describe OrderAddress, type: :model do
       it 'クレジットカード情報が空では購入できない' do
         @order.token = ''
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Token can't be blank")
+        expect(@order.errors.full_messages).to include("Token can't be blank")
       end
       it '郵便番号が空では購入できない' do
         @order.postal_code = ''
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Postal code が無効です")
+        expect(@order.errors.full_messages).to include('Postal code が無効です')
       end
       it '都道府県が未選択では購入できない' do
         @order.prefecture_id = 1
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Prefecture を選択してください")
+        expect(@order.errors.full_messages).to include('Prefecture を選択してください')
       end
       it '市区町村が空では購入できない' do
         @order.city = ''
         @order.valid?
-        expect(@order.errors.full_messages).to include ("City can't be blank")
+        expect(@order.errors.full_messages).to include("City can't be blank")
       end
       it '番地が空では購入できない' do
         @order.address = ''
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Address can't be blank")
+        expect(@order.errors.full_messages).to include("Address can't be blank")
       end
       it '電話番号が空では購入できない' do
         @order.phone_number = ''
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Phone number が無効です")
+        expect(@order.errors.full_messages).to include('Phone number が無効です')
       end
       it '郵便番号にハイフンがなければ購入できない' do
         @order.postal_code = '1234567'
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Postal code が無効です")
+        expect(@order.errors.full_messages).to include('Postal code が無効です')
       end
       it '郵便番号が8桁以外では購入できない' do
         @order.postal_code = '123-456'
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Postal code が無効です")
+        expect(@order.errors.full_messages).to include('Postal code が無効です')
       end
       it '郵便番号が全角数字では購入できない' do
         @order.postal_code = '１２３−４５６７'
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Postal code が無効です")
+        expect(@order.errors.full_messages).to include('Postal code が無効です')
       end
       it '電話番号が11桁以外では購入できない' do
         @order.phone_number = '090'
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Phone number が無効です")
+        expect(@order.errors.full_messages).to include('Phone number が無効です')
       end
       it '電話番号が全角数字では購入できない' do
         @order.phone_number = '０９００００００００００'
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Phone number が無効です")
+        expect(@order.errors.full_messages).to include('Phone number が無効です')
       end
       it '電話番号が英数字混合では購入できない' do
         @order.phone_number = '090abcd1234'
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Phone number が無効です")
+        expect(@order.errors.full_messages).to include('Phone number が無効です')
       end
       it '電話番号が記号混合では購入できない' do
         @order.phone_number = '090-0000-0000'
         @order.valid?
-        expect(@order.errors.full_messages).to include ("Phone number が無効です")
+        expect(@order.errors.full_messages).to include('Phone number が無効です')
       end
     end
   end
-end 
+end
