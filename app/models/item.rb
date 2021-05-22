@@ -8,6 +8,7 @@ class Item < ApplicationRecord
 
   belongs_to :user
   has_one_attached :item_image
+  has_one :order
 
   with_options numericality: { other_than: 1 } do
     validates :category_id, :item_status_id, :shipping_fee_id, :prefecture_id, :days_to_ship_id
