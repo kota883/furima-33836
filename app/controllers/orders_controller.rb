@@ -1,8 +1,8 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_item
-  before_action :sales_status_verification
-  before_action :user_id_verification
+  before_action :authenticate_user!, only: [:index, :create]
+  before_action :set_item, only: [:index, :create]
+  before_action :sales_status_verification, only: [:index, :create]
+  before_action :user_id_verification, only: [:index, :create]
 
   def index
     @order_address = OrderAddress.new
