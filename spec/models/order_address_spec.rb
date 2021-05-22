@@ -13,6 +13,10 @@ RSpec.describe OrderAddress, type: :model do
       it '必要な情報を適切に入力すると商品の購入ができる' do
         expect(@order).to be_valid
       end
+      it '建物名がなくても保存ができる' do
+        @order.building = ''
+        expect(@order).to be_valid
+      end
     end
 
     context '購入情報が保存できない時' do
@@ -61,8 +65,13 @@ RSpec.describe OrderAddress, type: :model do
         @order.valid?
         expect(@order.errors.full_messages).to include('Postal code が無効です')
       end
-      it '電話番号が11桁以外では購入できない' do
-        @order.phone_number = '090'
+      it '電話番号が9桁以下の時購入できない' do
+        @order.phone_number = '12345678'
+        @order.valid?
+        expect(@order.errors.full_messages).to include('Phone number が無効です')
+      end
+      it '電話番号が12桁以上の時購入できない' do
+        @order.phone_number = '090123456789'
         @order.valid?
         expect(@order.errors.full_messages).to include('Phone number が無効です')
       end
@@ -80,6 +89,16 @@ RSpec.describe OrderAddress, type: :model do
         @order.phone_number = '090-0000-0000'
         @order.valid?
         expect(@order.errors.full_messages).to include('Phone number が無効です')
+      end
+      it 'user_idが紐づいていないと購入できないこと' do
+        @order.user_id = ''
+        @order.valid?
+        expect(@order.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが紐づいていないと購入できないこと' do
+        @order.item_id = ''
+        @order.valid?
+        expect(@order.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
